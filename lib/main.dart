@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_practice/interfaces/todo_interface.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,6 +33,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _controller = TextEditingController(text: '');
   bool _checked = false;
+  List<Todo> todos = [];
+
+  void addTodo() {
+    Todo todo = Todo(_controller.text, false, DateTime.now(), UniqueKey());
+    setState(() {
+      todos.add(todo);
+    });
+    for (todo in todos) {
+      print(todo.title);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +70,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     controller: _controller,
                     decoration: InputDecoration(border: InputBorder.none),
                     style: TextStyle(color: scheme.inverseSurface),
+                    onSubmitted: (value) => addTodo(),
                   ),
                 ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+                IconButton(onPressed: () => addTodo(), icon: Icon(Icons.add)),
               ],
             ),
           ),

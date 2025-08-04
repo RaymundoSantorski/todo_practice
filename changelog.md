@@ -5,3 +5,5 @@
 - AppBar with title
 - Card with TextFiled and IconButton
 - Class Todo
+- Method to add To-Do
+- To-Do list
