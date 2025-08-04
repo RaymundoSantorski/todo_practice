@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(color: scheme.inverseSurface),
                   ),
                 ),
-                Checkbox(value: _checked, onChanged: (value) {}),
+                IconButton(onPressed: () {}, icon: Icon(Icons.add)),
               ],
             ),
           ),
