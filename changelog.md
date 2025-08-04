@@ -9,3 +9,4 @@
 - To-Do list
 - ListView to visualize all todos
 - Card for every To-Do item, with text and checkbox
+- Method to toggle To-Do completed value
