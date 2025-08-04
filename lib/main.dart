@@ -40,9 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       todos.add(todo);
     });
-    for (todo in todos) {
-      print(todo.title);
-    }
+    _controller.clear();
   }
 
   @override
@@ -74,6 +72,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 IconButton(onPressed: () => addTodo(), icon: Icon(Icons.add)),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              children: [
+                for (Todo todo in todos)
+                  Card(
+                    key: todo.key,
+                    child: Row(
+                      children: [
+                        Expanded(child: Text(todo.title)),
+                        Checkbox(value: todo.completed, onChanged: (value) {}),
+                      ],
+                    ),
+                  ),
               ],
             ),
           ),
