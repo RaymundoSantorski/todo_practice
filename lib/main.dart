@@ -33,14 +33,21 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _controller = TextEditingController(text: '');
   bool _checked = false;
-  List<Todo> todos = [];
+  List<Todo> _todos = [];
 
-  void addTodo() {
+  void _addTodo() {
     Todo todo = Todo(_controller.text, false, DateTime.now(), UniqueKey());
     setState(() {
-      todos.add(todo);
+      _todos.add(todo);
     });
     _controller.clear();
+  }
+
+  void _toggleTodo(Todo todo) {
+    Todo item = _todos.where((item) => todo.key == item.key).first;
+    setState(() {
+      item.completed = !item.completed;
+    });
   }
 
   @override
@@ -68,23 +75,26 @@ class _MyHomePageState extends State<MyHomePage> {
                     controller: _controller,
                     decoration: InputDecoration(border: InputBorder.none),
                     style: TextStyle(color: scheme.inverseSurface),
-                    onSubmitted: (value) => addTodo(),
+                    onSubmitted: (value) => _addTodo(),
                   ),
                 ),
-                IconButton(onPressed: () => addTodo(), icon: Icon(Icons.add)),
+                IconButton(onPressed: _addTodo, icon: Icon(Icons.add)),
               ],
             ),
           ),
           Expanded(
             child: ListView(
               children: [
-                for (Todo todo in todos)
+                for (Todo todo in _todos)
                   Card(
                     key: todo.key,
                     child: Row(
                       children: [
                         Expanded(child: Text(todo.title)),
-                        Checkbox(value: todo.completed, onChanged: (value) {}),
+                        Checkbox(
+                          value: todo.completed,
+                          onChanged: (value) => _toggleTodo(todo),
+                        ),
                       ],
                     ),
                   ),

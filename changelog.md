@@ -7,3 +7,5 @@
 - Class Todo
 - Method to add To-Do
 - To-Do list
+- ListView to visualize all todos
+- Card for every To-Do item, with text and checkbox
