@@ -50,6 +50,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _deleteTodo(Todo todo) {
+    setState(() {
+      _todos.removeWhere((item) => item.key == todo.key);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ColorScheme scheme = Theme.of(context).colorScheme;
@@ -88,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 for (Todo todo in _todos)
                   Dismissible(
                     key: todo.key,
-                    onDismissed: (DismissDirection dir) {},
+                    onDismissed: (DismissDirection dir) => _deleteTodo(todo),
                     child: Card(
                       color: !todo.completed
                           ? scheme.tertiaryFixedDim
