@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _controller = TextEditingController(text: '');
-  bool _checked = false;
+  bool _asc = false;
   List<Todo> _todos = [];
 
   void _addTodo() {
@@ -56,6 +56,34 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _orderByDateAsc() {
+    setState(() {
+      _todos.sort(
+        (Todo prev, Todo curr) =>
+            prev.createdAt.isAfter(curr.createdAt) ? -1 : 1,
+      );
+    });
+  }
+
+  void _orderByDateDes() {
+    setState(() {
+      _todos.sort(
+        (Todo prev, Todo curr) =>
+            prev.createdAt.isAfter(curr.createdAt) ? 1 : -1,
+      );
+    });
+  }
+
+  void _toggleOrder() {
+    if (_asc) {
+      _orderByDateDes();
+      _asc = false;
+    } else {
+      _orderByDateAsc();
+      _asc = true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ColorScheme scheme = Theme.of(context).colorScheme;
@@ -73,6 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: scheme.inverseSurface,
       body: Column(
         children: [
+          FilterChip(
+            label: Text('Ordernar por fecha ${_asc ? 'ASC' : 'DES'}'),
+            onSelected: (bool sel) => _toggleOrder(),
+          ),
           Card(
             child: Row(
               children: [
