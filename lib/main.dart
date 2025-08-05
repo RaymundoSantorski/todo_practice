@@ -86,16 +86,31 @@ class _MyHomePageState extends State<MyHomePage> {
             child: ListView(
               children: [
                 for (Todo todo in _todos)
-                  Card(
+                  Dismissible(
                     key: todo.key,
-                    child: Row(
-                      children: [
-                        Expanded(child: Text(todo.title)),
-                        Checkbox(
-                          value: todo.completed,
-                          onChanged: (value) => _toggleTodo(todo),
-                        ),
-                      ],
+                    onDismissed: (DismissDirection dir) {},
+                    child: Card(
+                      color: !todo.completed
+                          ? scheme.tertiaryFixedDim
+                          : scheme.secondaryContainer,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              todo.title,
+                              style: TextStyle(
+                                decoration: todo.completed
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none,
+                              ),
+                            ),
+                          ),
+                          Checkbox(
+                            value: todo.completed,
+                            onChanged: (value) => _toggleTodo(todo),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
               ],
