@@ -10,3 +10,5 @@
 - ListView to visualize all todos
 - Card for every To-Do item, with text and checkbox
 - Method to toggle To-Do completed value
+- Different style if a todo is marked as complete or incomplete
+- Delete a todo with a dismiss action
