@@ -28,6 +28,7 @@ class _TodosScreenState extends State<TodosScreen> {
   }
 
   void _addTodo() {
+    if (_controller.text.isEmpty) return;
     Todo todo = Todo(_controller.text, false, DateTime.now(), UniqueKey());
     setState(() {
       _todos.add(todo);
