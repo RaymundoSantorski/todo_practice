@@ -13,3 +13,4 @@
 - Different style if a todo is marked as complete or incomplete
 - Delete a todo with a dismiss action
 - Button to sort the list by date, ascendent or descendent
+- Screen for todos list and statistics view
