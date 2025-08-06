@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:to_do_practice/interfaces/todo_interface.dart';
 
 class TodosScreen extends StatefulWidget {
-  const TodosScreen({super.key});
+  TodosScreen({super.key});
 
   @override
   State<TodosScreen> createState() => _TodosScreenState();
@@ -12,6 +12,14 @@ class _TodosScreenState extends State<TodosScreen> {
   final TextEditingController _controller = TextEditingController(text: '');
   bool _asc = false;
   final List<Todo> _todos = [];
+  double _progress = 0;
+
+  void setProgress() {
+    int itemsCompleted = _todos.where((item) => item.completed).length;
+    setState(() {
+      _progress = itemsCompleted / _todos.length;
+    });
+  }
 
   void _addTodo() {
     Todo todo = Todo(_controller.text, false, DateTime.now(), UniqueKey());
@@ -19,6 +27,7 @@ class _TodosScreenState extends State<TodosScreen> {
       _todos.add(todo);
     });
     _controller.clear();
+    setProgress();
   }
 
   void _toggleTodo(Todo todo) {
@@ -26,12 +35,14 @@ class _TodosScreenState extends State<TodosScreen> {
     setState(() {
       item.completed = !item.completed;
     });
+    setProgress();
   }
 
   void _deleteTodo(Todo todo) {
     setState(() {
       _todos.removeWhere((item) => item.key == todo.key);
     });
+    setProgress();
   }
 
   void _orderByDateAsc() {
@@ -86,6 +97,7 @@ class _TodosScreenState extends State<TodosScreen> {
             ],
           ),
         ),
+        LinearProgressIndicator(minHeight: 10, value: _progress),
         Expanded(
           child: ListView(
             children: [
