@@ -31,14 +31,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _barIndex = 0;
-
-  void _setBarIndex(int index) {
-    setState(() {
-      _barIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     ColorScheme scheme = Theme.of(context).colorScheme;
@@ -54,18 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: scheme.secondary,
       ),
       backgroundColor: scheme.inverseSurface,
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: scheme.secondary,
-        selectedItemColor: scheme.onSecondary,
-        unselectedItemColor: scheme.inverseSurface,
-        currentIndex: _barIndex,
-        onTap: _setBarIndex,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'To-Dos'),
-          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Stats'),
-        ],
-      ),
-      body: _barIndex == 0 ? TodosScreen() : SizedBox(),
+      body: TodosScreen(),
     );
   }
 }
