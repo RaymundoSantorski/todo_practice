@@ -15,6 +15,12 @@ class _TodosScreenState extends State<TodosScreen> {
   double _progress = 0;
 
   void setProgress() {
+    if (_todos.length <= 0) {
+      setState(() {
+        _progress = 0;
+      });
+      return;
+    }
     int itemsCompleted = _todos.where((item) => item.completed).length;
     setState(() {
       _progress = itemsCompleted / _todos.length;
