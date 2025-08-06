@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_practice/interfaces/todo_interface.dart';
+import 'package:to_do_practice/screens/todos_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,57 +31,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final TextEditingController _controller = TextEditingController(text: '');
-  bool _asc = false;
-  List<Todo> _todos = [];
+  int _barIndex = 0;
 
-  void _addTodo() {
-    Todo todo = Todo(_controller.text, false, DateTime.now(), UniqueKey());
+  void _setBarIndex(int index) {
     setState(() {
-      _todos.add(todo);
+      _barIndex = index;
     });
-    _controller.clear();
-  }
-
-  void _toggleTodo(Todo todo) {
-    Todo item = _todos.where((item) => todo.key == item.key).first;
-    setState(() {
-      item.completed = !item.completed;
-    });
-  }
-
-  void _deleteTodo(Todo todo) {
-    setState(() {
-      _todos.removeWhere((item) => item.key == todo.key);
-    });
-  }
-
-  void _orderByDateAsc() {
-    setState(() {
-      _todos.sort(
-        (Todo prev, Todo curr) =>
-            prev.createdAt.isAfter(curr.createdAt) ? -1 : 1,
-      );
-    });
-  }
-
-  void _orderByDateDes() {
-    setState(() {
-      _todos.sort(
-        (Todo prev, Todo curr) =>
-            prev.createdAt.isAfter(curr.createdAt) ? 1 : -1,
-      );
-    });
-  }
-
-  void _toggleOrder() {
-    if (_asc) {
-      _orderByDateDes();
-      _asc = false;
-    } else {
-      _orderByDateAsc();
-      _asc = true;
-    }
   }
 
   @override
@@ -99,63 +54,18 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: scheme.secondary,
       ),
       backgroundColor: scheme.inverseSurface,
-      body: Column(
-        children: [
-          FilterChip(
-            label: Text('Ordernar por fecha ${_asc ? 'ASC' : 'DES'}'),
-            onSelected: (bool sel) => _toggleOrder(),
-          ),
-          Card(
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(border: InputBorder.none),
-                    style: TextStyle(color: scheme.inverseSurface),
-                    onSubmitted: (value) => _addTodo(),
-                  ),
-                ),
-                IconButton(onPressed: _addTodo, icon: Icon(Icons.add)),
-              ],
-            ),
-          ),
-          Expanded(
-            child: ListView(
-              children: [
-                for (Todo todo in _todos)
-                  Dismissible(
-                    key: todo.key,
-                    onDismissed: (DismissDirection dir) => _deleteTodo(todo),
-                    child: Card(
-                      color: !todo.completed
-                          ? scheme.tertiaryFixedDim
-                          : scheme.secondaryContainer,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              todo.title,
-                              style: TextStyle(
-                                decoration: todo.completed
-                                    ? TextDecoration.lineThrough
-                                    : TextDecoration.none,
-                              ),
-                            ),
-                          ),
-                          Checkbox(
-                            value: todo.completed,
-                            onChanged: (value) => _toggleTodo(todo),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: scheme.secondary,
+        selectedItemColor: scheme.onSecondary,
+        unselectedItemColor: scheme.inverseSurface,
+        currentIndex: _barIndex,
+        onTap: _setBarIndex,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'To-Dos'),
+          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Stats'),
         ],
       ),
+      body: _barIndex == 0 ? TodosScreen() : SizedBox(),
     );
   }
 }
